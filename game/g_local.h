@@ -258,6 +258,8 @@ typedef struct gitem_s
 	int			tag;
 
 	char		*precaches;		// string of all models, sounds, and images this item will use
+	
+	int			wpn_sabo;		// hira: determine whether weapon has been sabotaged
 } gitem_t;
 
 
