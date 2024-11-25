@@ -20,6 +20,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "g_local.h"
 #include "m_player.h"
 
+#include "h_sabdrop.h"	// hira
+
 
 char *ClientTeam (edict_t *ent)
 {
@@ -973,6 +975,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_InvUse_f (ent);
 	else if (Q_stricmp (cmd, "invdrop") == 0)
 		Cmd_InvDrop_f (ent);
+	else if (Q_stricmp(cmd, "sabdrop") == 0)	// hira
+		Cmd_SabDrop_f (ent);					// hira
 	else if (Q_stricmp (cmd, "weapprev") == 0)
 		Cmd_WeapPrev_f (ent);
 	else if (Q_stricmp (cmd, "weapnext") == 0)

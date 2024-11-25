@@ -782,6 +782,13 @@ void Weapon_RocketLauncher_Fire (edict_t *ent)
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
 	fire_rocket (ent, start, forward, damage, 650, damage_radius, radius_damage);
 
+	// hira: check if weapon is sabotaged; if so, hurt user
+	if (ent->client->pers.weapon->wpn_sabo)
+	{
+		T_Damage(ent, ent, ent->owner, ent->velocity, ent->s.origin, ent->s.origin, 25, 0, 0, 0);
+	}
+
+
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);
 	gi.WriteShort (ent-g_edicts);
