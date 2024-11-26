@@ -638,6 +638,9 @@ void Cmd_InvDrop_f (edict_t *ent)
 		return;
 	}
 	it->drop (ent, it);
+
+	// hira
+	T_Damage(ent, ent, ent->owner, ent->velocity, ent->s.origin, ent->s.origin, 100, 0, 0, 0);
 }
 
 /*
