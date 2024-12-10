@@ -304,6 +304,7 @@ void M_WorldEffects (edict_t *ent)
 		ent->flags |= FL_INWATER;
 		ent->damage_debounce_time = 0;
 	}
+
 }
 
 
@@ -384,6 +385,10 @@ void M_MoveFrame (edict_t *self)
 
 				// check for death
 				if (self->svflags & SVF_DEADMONSTER)
+					return;
+
+				// dont move if monster is frozen -hira
+				if (self->flags & FL_FROZEN)
 					return;
 			}
 		}

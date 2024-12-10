@@ -67,6 +67,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define	FL_TEAMSLAVE			0x00000400	// not the first on the team
 #define FL_NO_KNOCKBACK			0x00000800
 #define FL_POWER_ARMOR			0x00001000	// power armor (if any) is active
+#define FL_FROZEN				0x00002000	// stop entity from moving -hira
 #define FL_RESPAWN				0x80000000	// used for item respawning
 
 
@@ -730,6 +731,7 @@ void fire_shotgun (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int k
 void fire_blaster (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int speed, int effect, qboolean hyper);
 void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius);
 void fire_grenade2 (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius, qboolean held);
+void fire_trap(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius); //hira
 void fire_rocket (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius, int radius_damage);
 void fire_rail (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int kick);
 void fire_bfg (edict_t *self, vec3_t start, vec3_t dir, int damage, int speed, float damage_radius);
@@ -1111,3 +1113,9 @@ struct edict_s
 	monsterinfo_t	monsterinfo;
 };
 
+/*
+	hira
+	@brief writes to a file the mess
+	@param msg- input to be written to the file
+*/
+void file_log(const char* msg);

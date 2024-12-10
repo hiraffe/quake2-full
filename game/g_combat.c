@@ -308,6 +308,9 @@ void M_ReactToDamage (edict_t *targ, edict_t *attacker)
 			return;
 	}
 
+	//hira: if we are invisible or disguized, attacker will not get mad
+	//end
+
 	// we now know that we are not both good guys
 
 	// if attacker is a client, get mad at them because he's good and we're not
@@ -574,3 +577,38 @@ void T_RadiusDamage (edict_t *inflictor, edict_t *attacker, float damage, edict_
 		}
 	}
 }
+
+/*
+============
+T_Freeze	-hira
+
+targ		entity that is being damaged
+inflictor	entity that is causing the damage
+attacker	entity that caused the inflictor to damage targ
+	example: targ=monster, inflictor=rocket, attacker=player
+
+damage		amount of damage being inflicted
+
+dflags		these flags are used to control how T_Damage works
+	DAMAGE_RADIUS			damage was indirect (from a nearby explosion)
+	DAMAGE_NO_ARMOR			armor does not protect from this damage
+	DAMAGE_ENERGY			damage is from an energy based weapon
+	DAMAGE_NO_KNOCKBACK		do not affect velocity, just view angles
+	DAMAGE_BULLET			damage is from a bullet (used for ricochets)
+	DAMAGE_NO_PROTECTION	kills godmode, armor, everything
+============
+*/
+/*
+void T_Freeze(edict_t* targ, edict_t* inflictor, edict_t* attacker, float damage, float radius)
+{
+	gclient_t* client;
+	int			take;
+	int			save;
+	int			asave;
+	int			psave;
+	int			te_sparks;
+	
+	if (!targ->takedamage)
+		return;
+
+}*/

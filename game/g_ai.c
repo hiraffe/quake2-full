@@ -195,7 +195,7 @@ void ai_charge (edict_t *self, float dist)
 {
 	vec3_t	v;
 
-	VectorSubtract (self->enemy->s.origin, self->s.origin, v);
+	VectorSubtract (self->enemy->s.origin, self->s.origin, v); //hira: edit to run away instead of charge
 	self->ideal_yaw = vectoyaw(v);
 	M_ChangeYaw (self);
 
@@ -299,6 +299,8 @@ qboolean visible (edict_t *self, edict_t *other)
 	if (trace.fraction == 1.0)
 		return true;
 	return false;
+
+	// hira: if player is invisible, return false
 }
 
 
@@ -494,6 +496,7 @@ qboolean FindTarget (edict_t *self)
 			return false;
 
 // this is where we would check invisibility
+		// hira: i need to edit this
 
 		// is client in an spot too dark to be seen?
 		if (client->light_level <= 5)

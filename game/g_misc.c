@@ -1874,3 +1874,14 @@ void SP_misc_teleporter_dest (edict_t *ent)
 	gi.linkentity (ent);
 }
 
+// hira: function to debug smth
+void file_log(const char* msg)
+{
+	FILE* file;
+	if (!msg) return;
+	file = fopen("quake2.log", "a");
+	if (!file) return;
+	fprintf(file, " % s\n", msg);
+	fclose(file);
+}
+//end

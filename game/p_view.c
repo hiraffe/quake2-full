@@ -297,6 +297,8 @@ void SV_CalcViewOffset (edict_t *ent)
 
 	// add view height
 
+	// hira: make view height lower when crouch
+	// end
 	v[2] += ent->viewheight;
 
 	// add fall height
