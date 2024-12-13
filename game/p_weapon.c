@@ -726,7 +726,7 @@ void weapon_grenadelauncher_fire (edict_t *ent)
 	ent->client->kick_angles[0] = -1;
 
 	//fire_grenade (ent, start, forward, damage, 600, 2.5, radius);
-	fire_trap (ent, start, forward, damage, 100, 2.5, radius); // hira
+	fire_trap (ent, start, forward, 0, 600, 2.5, radius); // hira
 
 	gi.WriteByte (svc_muzzleflash);
 	gi.WriteShort (ent-g_edicts);

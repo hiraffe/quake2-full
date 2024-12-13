@@ -628,8 +628,9 @@ static void Trap_Capture(edict_t* ent)
 			mod = MOD_HANDGRENADE;
 		else
 			mod = MOD_GRENADE;
-		T_Damage(ent->enemy, ent, ent->owner, dir, ent->s.origin, vec3_origin, (int)points, (int)points, DAMAGE_RADIUS, mod);
-		//freeze enemy T_Freeze(ent->enemy, ent, ent->owner
+		//T_Damage(ent->enemy, ent, ent->owner, dir, ent->s.origin, vec3_origin, (int)points, (int)points, DAMAGE_RADIUS, mod);
+		//freeze enemy 
+		T_Freeze(ent->enemy, ent, ent->owner, dir, ent->s.origin, vec3_origin, (int)points, (int)points, DAMAGE_RADIUS, mod);
 	}
 
 	if (ent->spawnflags & 2)
@@ -638,7 +639,7 @@ static void Trap_Capture(edict_t* ent)
 		mod = MOD_HG_SPLASH;
 	else
 		mod = MOD_G_SPLASH;
-	T_RadiusDamage(ent, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
+	//T_RadiusDamage(ent, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
 
 	VectorMA(ent->s.origin, -0.02, ent->velocity, origin);
 	gi.WriteByte(svc_temp_entity);
@@ -693,9 +694,8 @@ static void Trap_Touch(edict_t* ent, edict_t* other, cplane_t* plane, csurface_t
 	Trap_Capture(ent);
 }
 
-// hira: proximity think function
-/*
-static void proxim_think(edict_t* ent)
+// hira: trap think function
+static void trap_think(edict_t* ent)
 {
 	edict_t* blip = NULL;
 	if (level.time > ent->delay) {
@@ -703,7 +703,7 @@ static void proxim_think(edict_t* ent)
 		return;
 	}
 
-	ent->think = proxim_think;
+	ent->think = trap_think;
 	while ((blip = findradius(blip, ent->s.origin, 100)) != NULL) {
 		if (!(blip->svflags & SVF_MONSTER) && !blip->client)
 			continue;
@@ -720,7 +720,7 @@ static void proxim_think(edict_t* ent)
 	}
 	ent->nextthink = level.time + 0.1;
 	
-} */ // end
+}  // end
 
 //using grenade launcher
 void fire_trap(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int speed, float timer, float damage_radius)
@@ -749,12 +749,12 @@ void fire_trap(edict_t* self, vec3_t start, vec3_t aimdir, int damage, int speed
 	grenade->touch = Trap_Touch;
 	// hira: replace think
 	grenade->nextthink = level.time + 0.1;
-	grenade->think = proxim_think;
+	grenade->think = trap_think;
 	grenade->delay = level.time + 60;
 	// end
 	grenade->dmg = damage;
 	grenade->dmg_radius = damage_radius;
-	grenade->classname = "grenade";
+	grenade->classname = "trap";
 
 	gi.linkentity(grenade);
 }

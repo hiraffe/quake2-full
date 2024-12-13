@@ -598,17 +598,8 @@ dflags		these flags are used to control how T_Damage works
 	DAMAGE_NO_PROTECTION	kills godmode, armor, everything
 ============
 */
-/*
+
 void T_Freeze(edict_t* targ, edict_t* inflictor, edict_t* attacker, float damage, float radius)
 {
-	gclient_t* client;
-	int			take;
-	int			save;
-	int			asave;
-	int			psave;
-	int			te_sparks;
-	
-	if (!targ->takedamage)
-		return;
-
-}*/
+	targ->flags |= FL_FROZEN;
+}

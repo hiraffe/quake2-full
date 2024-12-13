@@ -283,6 +283,13 @@ qboolean SV_movestep (edict_t *ent, vec3_t move, qboolean relink)
 	ent->groundentity = trace.ent;
 	ent->groundentity_linkcount = trace.ent->linkcount;
 
+// hira: if monster is trapped, dont mmove
+	if (ent->flags & FL_FROZEN)
+	{
+		return false;
+	}
+//end
+
 // the move is ok
 	if (relink)
 	{
@@ -520,6 +527,8 @@ void M_MoveToGoal (edict_t *ent, float dist)
 
 	if (!ent->groundentity && !(ent->flags & (FL_FLY|FL_SWIM)))
 		return;
+	if (ent->flags & FL_FROZEN)
+		return;
 
 // if the next step hits the enemy, return immediately
 	if (ent->enemy &&  SV_CloseEnough (ent, ent->enemy, dist) )
@@ -544,6 +553,8 @@ qboolean M_walkmove (edict_t *ent, float yaw, float dist)
 	vec3_t	move;
 	
 	if (!ent->groundentity && !(ent->flags & (FL_FLY|FL_SWIM)))
+		return false;
+	if (ent->flags & FL_FROZEN)
 		return false;
 
 	yaw = yaw*M_PI*2 / 360;
