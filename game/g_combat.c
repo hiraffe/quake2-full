@@ -308,8 +308,8 @@ void M_ReactToDamage (edict_t *targ, edict_t *attacker)
 			return;
 	}
 
-	//hira: if player is disguised, do not get mad
-	if (attacker->client && attacker->client->disguise_framenum > level.framenum)
+	//hira: if player is invisible, do not get mad
+	if (attacker->client && attacker->client->invisible_framenum > level.framenum)
 		return;
 	//end
 

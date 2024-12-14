@@ -349,7 +349,7 @@ void HuntTarget (edict_t *self)
 
 void FoundTarget (edict_t *self)
 {
-	// hira: if enemy is disguized or invisible, dont shoot
+	// hira: if enemy is disguized or invisible, dont get mad
 	if (self->enemy->client && self->enemy->client->disguise_framenum > level.framenum)
 		return false;
 	if (self->enemy->client && self->enemy->client->invisible_framenum > level.framenum)
@@ -467,6 +467,10 @@ qboolean FindTarget (edict_t *self)
 		if (!client)
 			return false;	// no clients to get mad at
 	}
+
+	// hira: if player has lightstep, dont hear anything
+	if (client->client && client->client->lightstep_framenum > level.framenum)
+		heardit = false;
 
 	// if the entity went away, forget it
 	if (!client->inuse)
