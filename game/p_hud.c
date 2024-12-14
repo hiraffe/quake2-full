@@ -340,7 +340,7 @@ void HelpComputer (edict_t *ent)
 ==================
 Cmd_Help_f
 
-Display the current help message
+Display the current help message		hira: edit this part for common deliverable
 ==================
 */
 void Cmd_Help_f (edict_t *ent)

@@ -496,7 +496,7 @@ void SV_NewChaseDir (edict_t *actor, edict_t *enemy, float dist)
 
 /*
 ================
-SV_NewRunawayDir
+SV_NewRunawayDir -hira
 
 ================
 */
@@ -516,8 +516,6 @@ void SV_NewRunawayDir(edict_t* actor, edict_t* enemy, float dist)
 
 	deltax = enemy->s.origin[0] - actor->s.origin[0];
 	deltay = enemy->s.origin[1] - actor->s.origin[1];
-	//deltax = actor->s.origin[0] - enemy->s.origin[0]; //hira: makes them run away
-	//deltay = actor->s.origin[1] - enemy->s.origin[1]; //instead of towards player
 
 	if (deltax > 10)
 		d[1] = 180; // 0 and 180 swapped

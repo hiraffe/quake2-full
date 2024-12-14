@@ -67,7 +67,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define	FL_TEAMSLAVE			0x00000400	// not the first on the team
 #define FL_NO_KNOCKBACK			0x00000800
 #define FL_POWER_ARMOR			0x00001000	// power armor (if any) is active
-#define FL_FROZEN				0x00002000	// stop entity from moving -hira
+#define FL_FROZEN				0x00002000	// hira: stop entity from moving
+//#define FL_INVISIBLE			0x00004000	// hira
 #define FL_RESPAWN				0x80000000	// used for item respawning
 
 
@@ -945,6 +946,8 @@ struct gclient_s
 	float		invincible_framenum;
 	float		breather_framenum;
 	float		enviro_framenum;
+	float		invisible_framenum;	//hira
+	float		disguise_framenum;	//hira
 
 	qboolean	grenade_blew_up;
 	float		grenade_time;

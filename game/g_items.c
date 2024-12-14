@@ -418,6 +418,35 @@ void	Use_Silencer (edict_t *ent, gitem_t *item)
 }
 
 //======================================================================
+//hira
+
+void	Use_Invisibility(edict_t* ent, gitem_t* item)
+{
+	ent->client->pers.inventory[ITEM_INDEX(item)]--;
+	ValidateSelectedItem(ent);
+
+	if (ent->client->invisible_framenum > level.framenum)
+		ent->client->invisible_framenum += 300;
+	else
+		ent->client->invisible_framenum = level.framenum + 300;
+
+	gi.sound(ent, CHAN_ITEM, gi.soundindex("items/protect.wav"), 1, ATTN_NORM, 0);
+}
+
+void	Use_Disguise(edict_t* ent, gitem_t* item)
+{
+	ent->client->pers.inventory[ITEM_INDEX(item)]--;
+	ValidateSelectedItem(ent);
+
+	if (ent->client->disguise_framenum > level.framenum)
+		ent->client->disguise_framenum += 300;
+	else
+		ent->client->disguise_framenum = level.framenum + 300;
+
+	gi.sound(ent, CHAN_ITEM, gi.soundindex("items/protect.wav"), 1, ATTN_NORM, 0);
+}
+
+//======================================================================
 
 qboolean Pickup_Key (edict_t *ent, edict_t *other)
 {
@@ -1729,6 +1758,51 @@ always owned, never in the world
 		NULL,
 		0,
 /* precache */ ""
+	},
+
+/*hira: QUAKED item_invisibility (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"item_invisibility",
+		Pickup_Powerup,
+		Use_Invisibility,
+		Drop_General,
+		NULL,
+		"items/pkup.wav",
+		"models/items/invulner/tris.md2", EF_ROTATE,
+		NULL,
+		/* icon */		"p_invulnerability",
+		/* pickup */	"Invisibility",
+		/* width */		2,
+				60,
+				NULL,
+				IT_POWERUP,
+				0,
+				NULL,
+				0,
+				/* precache */ ""
+	},
+/*hira: QUAKED item_invisibility (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"item_disguise",
+		Pickup_Powerup,
+		Use_Disguise,
+		Drop_General,
+		NULL,
+		"items/pkup.wav",
+		"models/items/enviro/tris.md2", EF_ROTATE,
+		NULL,
+		/* icon */		"p_envirosuit",
+		/* pickup */	"Disguise",
+		/* width */		2,
+				60,
+				NULL,
+				IT_POWERUP,
+				0,
+				NULL,
+				0,
+				/* precache */ ""
 	},
 
 /*QUAKED item_breather (.3 .3 1) (-16 -16 -16) (16 16 16)

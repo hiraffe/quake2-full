@@ -496,8 +496,10 @@ qboolean FindTarget (edict_t *self)
 		if (r == RANGE_FAR)
 			return false;
 
-// this is where we would check invisibility
-		// hira: i need to edit this
+		//hira: if player is disguised, do not get mad
+		if (client->client && client->client->disguise_framenum > level.framenum)
+			return false;
+		//end
 
 		// is client in an spot too dark to be seen?
 		if (client->light_level <= 5)
