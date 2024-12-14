@@ -1318,7 +1318,7 @@ void weapon_railgun_fire (edict_t *ent)
 	int			kick;
 	float	radius; //hira
 
-	radius = damage + 40; //hira
+	radius = 160; //hira
 
 	if (deathmatch->value)
 	{	// normal damage is too extreme in dm

@@ -412,7 +412,7 @@ void	Use_Silencer (edict_t *ent, gitem_t *item)
 {
 	ent->client->pers.inventory[ITEM_INDEX(item)]--;
 	ValidateSelectedItem (ent);
-	ent->client->silencer_shots += 10000;	//hira: changed 30 shots to 10000
+	ent->client->silencer_shots += 50;	//hira: changed 30 shots to 10000
 
 //	gi.sound(ent, CHAN_ITEM, gi.soundindex("items/damage.wav"), 1, ATTN_NORM, 0);
 }
@@ -442,6 +442,19 @@ void	Use_Disguise(edict_t* ent, gitem_t* item)
 		ent->client->disguise_framenum += 300;
 	else
 		ent->client->disguise_framenum = level.framenum + 300;
+
+	gi.sound(ent, CHAN_ITEM, gi.soundindex("items/protect.wav"), 1, ATTN_NORM, 0);
+}
+
+void	Use_LightStep(edict_t* ent, gitem_t* item)
+{
+	ent->client->pers.inventory[ITEM_INDEX(item)]--;
+	ValidateSelectedItem(ent);
+
+	if (ent->client->lightstep_framenum > level.framenum)
+		ent->client->lightstep_framenum += 300;
+	else
+		ent->client->lightstep_framenum = level.framenum + 300;
 
 	gi.sound(ent, CHAN_ITEM, gi.soundindex("items/protect.wav"), 1, ATTN_NORM, 0);
 }
@@ -1795,6 +1808,29 @@ always owned, never in the world
 		NULL,
 		/* icon */		"p_envirosuit",
 		/* pickup */	"Disguise",
+		/* width */		2,
+				60,
+				NULL,
+				IT_POWERUP,
+				0,
+				NULL,
+				0,
+				/* precache */ ""
+	},
+
+/*hira: QUAKED item_invisibility (.3 .3 1) (-16 -16 -16) (16 16 16)
+*/
+	{
+		"item_lightstep",
+		Pickup_Powerup,
+		Use_Disguise,
+		Drop_General,
+		NULL,
+		"items/pkup.wav",
+		"models/items/breather/tris.md2", EF_ROTATE,
+		NULL,
+		/* icon */		"p_rebreather",
+		/* pickup */	"LightStep",
 		/* width */		2,
 				60,
 				NULL,

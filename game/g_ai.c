@@ -349,6 +349,12 @@ void HuntTarget (edict_t *self)
 
 void FoundTarget (edict_t *self)
 {
+	// hira: if enemy is disguized or invisible, dont shoot
+	if (self->enemy->client && self->enemy->client->disguise_framenum > level.framenum)
+		return false;
+	if (self->enemy->client && self->enemy->client->invisible_framenum > level.framenum)
+		return false;
+	
 	// let other monsters see this monster for a while
 	if (self->enemy->client)
 	{
@@ -496,8 +502,10 @@ qboolean FindTarget (edict_t *self)
 		if (r == RANGE_FAR)
 			return false;
 
-		//hira: if player is disguised, do not get mad
+		//hira: if player is disguised or invisible, do not get mad
 		if (client->client && client->client->disguise_framenum > level.framenum)
+			return false;
+		if (client->client && client->client->invisible_framenum > level.framenum)
 			return false;
 		//end
 

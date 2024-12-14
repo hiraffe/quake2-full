@@ -544,7 +544,7 @@ void fire_grenade (edict_t *self, vec3_t start, vec3_t aimdir, int damage, int s
 	// end
 	grenade->dmg = damage;
 	grenade->dmg_radius = damage_radius;
-	grenade->classname = "grenade";
+	grenade->classname = "grenade trap";
 
 	gi.linkentity (grenade);
 }

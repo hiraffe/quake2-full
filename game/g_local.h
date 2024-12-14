@@ -948,6 +948,7 @@ struct gclient_s
 	float		enviro_framenum;
 	float		invisible_framenum;	//hira
 	float		disguise_framenum;	//hira
+	float		lightstep_framenum; //hira
 
 	qboolean	grenade_blew_up;
 	float		grenade_time;
