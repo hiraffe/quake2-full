@@ -195,7 +195,8 @@ void ai_charge (edict_t *self, float dist)
 {
 	vec3_t	v;
 
-	VectorSubtract (self->enemy->s.origin, self->s.origin, v); //hira: edit to run away instead of charge
+	//VectorSubtract (self->enemy->s.origin, self->s.origin, v);
+	VectorSubtract(self->s.origin, self->enemy->s.origin, v); //hira: enemy will run away instead of charge
 	self->ideal_yaw = vectoyaw(v);
 	M_ChangeYaw (self);
 

@@ -725,8 +725,7 @@ void weapon_grenadelauncher_fire (edict_t *ent)
 	VectorScale (forward, -2, ent->client->kick_origin);
 	ent->client->kick_angles[0] = -1;
 
-	//fire_grenade (ent, start, forward, damage, 600, 2.5, radius);
-	fire_trap (ent, start, forward, 0, 600, 2.5, radius); // hira
+	fire_grenade (ent, start, forward, damage, 600, 2.5, radius);
 
 	gi.WriteByte (svc_muzzleflash);
 	gi.WriteShort (ent-g_edicts);
@@ -1317,6 +1316,9 @@ void weapon_railgun_fire (edict_t *ent)
 	vec3_t		offset;
 	int			damage;
 	int			kick;
+	float	radius; //hira
+
+	radius = damage + 40; //hira
 
 	if (deathmatch->value)
 	{	// normal damage is too extreme in dm
@@ -1342,7 +1344,8 @@ void weapon_railgun_fire (edict_t *ent)
 
 	VectorSet(offset, 0, 7,  ent->viewheight-8);
 	P_ProjectSource (ent->client, ent->s.origin, offset, forward, right, start);
-	fire_rail (ent, start, forward, damage, kick);
+	//fire_rail (ent, start, forward, damage, kick);
+	fire_trap(ent, start, forward, 0, 600, 2.5, radius); // hira
 
 	// send muzzle flash
 	gi.WriteByte (svc_muzzleflash);

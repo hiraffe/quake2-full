@@ -420,18 +420,21 @@ void SV_NewChaseDir (edict_t *actor, edict_t *enemy, float dist)
 	olddir = anglemod( (int)(actor->ideal_yaw/45)*45 );
 	turnaround = anglemod(olddir - 180);
 
-	deltax = enemy->s.origin[0] - actor->s.origin[0];
-	deltay = enemy->s.origin[1] - actor->s.origin[1];
+	//deltax = enemy->s.origin[0] - actor->s.origin[0];
+	//deltay = enemy->s.origin[1] - actor->s.origin[1];
+	deltax = actor->s.origin[0] - enemy->s.origin[0]; //hira: makes them run away
+	deltay = actor->s.origin[1] - enemy->s.origin[1]; //instead of towards player
+
 	if (deltax>10)
-		d[1]= 0;
+		d[1]= 180; // 0 and 180 swapped
 	else if (deltax<-10)
-		d[1]= 180;
+		d[1]= 0; //180 and 0 swapped
 	else
 		d[1]= DI_NODIR;
 	if (deltay<-10)
-		d[2]= 270;
+		d[2]= 90; //90 and 270 swapped
 	else if (deltay>10)
-		d[2]= 90;
+		d[2]= 270; //270 and 90 swapped
 	else
 		d[2]= DI_NODIR;
 
@@ -439,9 +442,11 @@ void SV_NewChaseDir (edict_t *actor, edict_t *enemy, float dist)
 	if (d[1] != DI_NODIR && d[2] != DI_NODIR)
 	{
 		if (d[1] == 0)
-			tdir = d[2] == 90 ? 45 : 315;
-		else
+			//tdir = d[2] == 90 ? 45 : 315;
 			tdir = d[2] == 90 ? 135 : 215;
+		else
+			//tdir = d[2] == 90 ? 135 : 215;
+			tdir = d[2] == 90 ? 45 : 315;
 			
 		if (tdir != turnaround && SV_StepDirection(actor, tdir, dist))
 			return;
