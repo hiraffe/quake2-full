@@ -283,7 +283,7 @@ qboolean SV_movestep (edict_t *ent, vec3_t move, qboolean relink)
 	ent->groundentity = trace.ent;
 	ent->groundentity_linkcount = trace.ent->linkcount;
 
-// hira: if monster is trapped, dont mmove
+// hira: if monster is trapped, dont move
 	if (ent->flags & FL_FROZEN)
 	{
 		return false;
@@ -420,21 +420,19 @@ void SV_NewChaseDir (edict_t *actor, edict_t *enemy, float dist)
 	olddir = anglemod( (int)(actor->ideal_yaw/45)*45 );
 	turnaround = anglemod(olddir - 180);
 
-	//deltax = enemy->s.origin[0] - actor->s.origin[0];
-	//deltay = enemy->s.origin[1] - actor->s.origin[1];
-	deltax = actor->s.origin[0] - enemy->s.origin[0]; //hira: makes them run away
-	deltay = actor->s.origin[1] - enemy->s.origin[1]; //instead of towards player
+	deltax = enemy->s.origin[0] - actor->s.origin[0];
+	deltay = enemy->s.origin[1] - actor->s.origin[1];
 
 	if (deltax>10)
-		d[1]= 180; // 0 and 180 swapped
+		d[1]= 0;
 	else if (deltax<-10)
-		d[1]= 0; //180 and 0 swapped
+		d[1]= 180;
 	else
 		d[1]= DI_NODIR;
 	if (deltay<-10)
-		d[2]= 90; //90 and 270 swapped
+		d[2]= 270;
 	else if (deltay>10)
-		d[2]= 270; //270 and 90 swapped
+		d[2]= 90; 
 	else
 		d[2]= DI_NODIR;
 
@@ -442,11 +440,9 @@ void SV_NewChaseDir (edict_t *actor, edict_t *enemy, float dist)
 	if (d[1] != DI_NODIR && d[2] != DI_NODIR)
 	{
 		if (d[1] == 0)
-			//tdir = d[2] == 90 ? 45 : 315;
-			tdir = d[2] == 90 ? 135 : 215;
-		else
-			//tdir = d[2] == 90 ? 135 : 215;
 			tdir = d[2] == 90 ? 45 : 315;
+		else
+			tdir = d[2] == 90 ? 135 : 215;
 			
 		if (tdir != turnaround && SV_StepDirection(actor, tdir, dist))
 			return;
@@ -499,6 +495,104 @@ void SV_NewChaseDir (edict_t *actor, edict_t *enemy, float dist)
 }
 
 /*
+================
+SV_NewRunawayDir
+
+================
+*/
+#define	DI_NODIR	-1
+void SV_NewRunawayDir(edict_t* actor, edict_t* enemy, float dist)
+{
+	float	deltax, deltay;
+	float	d[3];
+	float	tdir, olddir, turnaround;
+
+	//FIXME: how did we get here with no enemy
+	if (!enemy)
+		return;
+
+	olddir = anglemod((int)(actor->ideal_yaw / 45) * 45);
+	turnaround = anglemod(olddir - 180);
+
+	deltax = enemy->s.origin[0] - actor->s.origin[0];
+	deltay = enemy->s.origin[1] - actor->s.origin[1];
+	//deltax = actor->s.origin[0] - enemy->s.origin[0]; //hira: makes them run away
+	//deltay = actor->s.origin[1] - enemy->s.origin[1]; //instead of towards player
+
+	if (deltax > 10)
+		d[1] = 180; // 0 and 180 swapped
+	else if (deltax < -10)
+		d[1] = 0; //180 and 0 swapped
+	else
+		d[1] = DI_NODIR;
+	if (deltay < -10)
+		d[2] = 90; //90 and 270 swapped
+	else if (deltay > 10)
+		d[2] = 270; //270 and 90 swapped
+	else
+		d[2] = DI_NODIR;
+
+	// try direct route
+	if (d[1] != DI_NODIR && d[2] != DI_NODIR)
+	{
+		if (d[1] == 0)
+			//tdir = d[2] == 90 ? 45 : 315;
+			tdir = d[2] == 90 ? 135 : 215;
+		else
+			//tdir = d[2] == 90 ? 135 : 215;
+			tdir = d[2] == 90 ? 45 : 315;
+
+		if (tdir != turnaround && SV_StepDirection(actor, tdir, dist))
+			return;
+	}
+
+	// try other directions
+	if (((rand() & 3) & 1) || abs(deltay) > abs(deltax))
+	{
+		tdir = d[1];
+		d[1] = d[2];
+		d[2] = tdir;
+	}
+
+	if (d[1] != DI_NODIR && d[1] != turnaround
+		&& SV_StepDirection(actor, d[1], dist))
+		return;
+
+	if (d[2] != DI_NODIR && d[2] != turnaround
+		&& SV_StepDirection(actor, d[2], dist))
+		return;
+
+	/* there is no direct path to the player, so pick another direction */
+
+	if (olddir != DI_NODIR && SV_StepDirection(actor, olddir, dist))
+		return;
+
+	if (rand() & 1) 	/*randomly determine direction of search*/
+	{
+		for (tdir = 0; tdir <= 315; tdir += 45)
+			if (tdir != turnaround && SV_StepDirection(actor, tdir, dist))
+				return;
+	}
+	else
+	{
+		for (tdir = 315; tdir >= 0; tdir -= 45)
+			if (tdir != turnaround && SV_StepDirection(actor, tdir, dist))
+				return;
+	}
+
+	if (turnaround != DI_NODIR && SV_StepDirection(actor, turnaround, dist))
+		return;
+
+	actor->ideal_yaw = olddir;		// can't move
+
+	// if a bridge was pulled out from underneath a monster, it may not have
+	// a valid standing position at all
+
+	if (!M_CheckBottom(actor))
+		SV_FixCheckBottom(actor);
+}
+
+/*
 ======================
 SV_CloseEnough
 
@@ -543,7 +637,8 @@ void M_MoveToGoal (edict_t *ent, float dist)
 	if ( (rand()&3)==1 || !SV_StepDirection (ent, ent->ideal_yaw, dist))
 	{
 		if (ent->inuse)
-			SV_NewChaseDir (ent, goal, dist);
+			//SV_NewChaseDir (ent, goal, dist);
+			SV_NewRunawayDir(ent, goal, dist); //hira
 	}
 }
 
