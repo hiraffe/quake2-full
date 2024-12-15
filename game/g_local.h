@@ -68,7 +68,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define FL_NO_KNOCKBACK			0x00000800
 #define FL_POWER_ARMOR			0x00001000	// power armor (if any) is active
 #define FL_FROZEN				0x00002000	// hira: stop entity from moving
-//#define FL_INVISIBLE			0x00004000	// hira
+#define FL_PEEK_LEFT			0x00004000	// hira
+#define FL_PEEK_RIGHT			0x00008000	// hira
 #define FL_RESPAWN				0x80000000	// used for item respawning
 
 
@@ -951,6 +952,8 @@ struct gclient_s
 	float		lightstep_framenum; //
 	float		speed_framenum;		//
 	float		dash_framenum;		//
+	float		lpeek_framenum;
+	float		rpeek_framenum;
 
 	qboolean	grenade_blew_up;
 	float		grenade_time;
@@ -967,6 +970,11 @@ struct gclient_s
 
 	edict_t		*chase_target;		// player we are chasing
 	qboolean	update_chase;		// need to update chase info?
+
+	//hira: chasecam variables -code from CaseCam tutorial by James Williams
+	int             chasetoggle;
+	edict_t			*chasecam;
+	edict_t			*oldplayer;
 };
 
 
@@ -1119,6 +1127,10 @@ struct edict_s
 	monsterinfo_t	monsterinfo;
 
 	int ClassSpeed; // hira: for player speed
+
+	//hira: Chasecam variables 
+	int             chasedist1;
+	int             chasedist2;
 };
 
 /*
@@ -1127,3 +1139,5 @@ struct edict_s
 	@param msg- input to be written to the file
 */
 void file_log(const char* msg);
+
+extern void CheckChasecam_Viewent(edict_t* ent); //hira

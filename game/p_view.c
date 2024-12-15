@@ -297,8 +297,6 @@ void SV_CalcViewOffset (edict_t *ent)
 
 	// add view height
 
-	// hira: make view height lower when crouch
-	// end
 	v[2] += ent->viewheight;
 
 	// add fall height
@@ -317,26 +315,52 @@ void SV_CalcViewOffset (edict_t *ent)
 	v[2] += bob;
 
 	// add kick offset
-
 	VectorAdd (v, ent->client->kick_origin, v);
+
+	//hira: add peeking offset
+	//if (ent->client->ps.pmove.pm_flags & FL_PEEK_LEFT)
+	if (ent->client && ent->client->lpeek_framenum > level.framenum)
+	{
+		v[0] += 100;
+	}
+	if (ent->client && ent->client->rpeek_framenum > level.framenum)
+		v[0] -= 100;
+	//end
 
 	// absolutely bound offsets
 	// so the view can never be outside the player box
 
-	if (v[0] < -14)
-		v[0] = -14;
-	else if (v[0] > 14)
-		v[0] = 14;
-	if (v[1] < -14)
-		v[1] = -14;
-	else if (v[1] > 14)
-		v[1] = 14;
-	if (v[2] < -22)
-		v[2] = -22;
-	else if (v[2] > 30)
-		v[2] = 30;
-
-	VectorCopy (v, ent->client->ps.viewoffset);
+	// editing for chase cam
+	/*
+	if (!ent->client->chasetoggle)
+		{
+		if (v[0] < -14)
+			v[0] = -14;
+		else if (v[0] > 14)
+			v[0] = 14;
+		if (v[1] < -14)
+			v[1] = -14;
+		else if (v[1] > 14)
+			v[1] = 14;
+		if (v[2] < -22)
+			v[2] = -22;
+		else if (v[2] > 30)
+			v[2] = 30;
+		}
+	else
+		{
+		VectorSet(v, 0, 0, 0);
+		if (ent->client->chasecam != NULL)
+		{
+			ent->client->ps.pmove.origin[0] = ent->client->chasecam->s.origin[0] * 8;
+			ent->client->ps.pmove.origin[1] = ent->client->chasecam->s.origin[1] * 8;
+			ent->client->ps.pmove.origin[2] = ent->client->chasecam->s.origin[2] * 8;
+			VectorCopy(ent->client->chasecam->s.angles, ent->client->ps.viewangles);
+		}
+	}
+	*/
+	// end
+	VectorCopy(v, ent->client->ps.viewoffset);
 }
 
 /*
@@ -1085,5 +1109,8 @@ void ClientEndServerFrame (edict_t *ent)
 		DeathmatchScoreboardMessage (ent, ent->enemy);
 		gi.unicast (ent, false);
 	}
+
+	if (ent->client->chasetoggle == 1)	//hira
+		CheckChasecam_Viewent(ent);		//
 }
 

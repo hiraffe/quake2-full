@@ -210,7 +210,8 @@ void ChangeWeapon (edict_t *ent)
 
 	ent->client->weaponstate = WEAPON_ACTIVATING;
 	ent->client->ps.gunframe = 0;
-	ent->client->ps.gunindex = gi.modelindex(ent->client->pers.weapon->view_model);
+	if (!ent->client->chasetoggle)
+		ent->client->ps.gunindex = gi.modelindex(ent->client->pers.weapon->view_model);
 
 	ent->client->anim_priority = ANIM_PAIN;
 	if(ent->client->ps.pmove.pm_flags & PMF_DUCKED)

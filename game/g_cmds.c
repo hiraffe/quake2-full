@@ -919,6 +919,36 @@ void Cmd_Dash_f(edict_t* ent)
 	gi.sound(ent, CHAN_ITEM, gi.soundindex("items/protect.wav"), 1, ATTN_NORM, 0);
 }
 
+/*
+==================
+Cmd_LeftPeek_f
+
+Client view moves left -hira
+==================
+*/
+void Cmd_LeftPeek_f(edict_t* ent)
+{
+	if (ent->client->lpeek_framenum > level.framenum)
+		ent->client->lpeek_framenum += 7;
+	else
+		ent->client->lpeek_framenum = level.framenum + 7;
+}
+
+/*
+==================
+Cmd_RightPeek_f
+
+Client view moves right -hira
+==================
+*/
+void Cmd_RightPeek_f(edict_t* ent)
+{
+	if (ent->client->rpeek_framenum > level.framenum)
+		ent->client->rpeek_framenum += 7;
+	else
+		ent->client->rpeek_framenum = level.framenum + 7;
+}
+
 
 /*
 =================
@@ -1007,8 +1037,14 @@ void ClientCommand (edict_t *ent)
 		Cmd_Wave_f (ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
-	else if (Q_stricmp(cmd, "dash") == 0)	//hira
-		Cmd_Dash_f(ent);					//
+	else if (Q_stricmp(cmd, "dash") == 0)		//hira
+		Cmd_Dash_f(ent);						//
+	else if (Q_stricmp(cmd, "lpeek") == 0)		//
+		Cmd_LeftPeek_f(ent);					//
+	else if (Q_stricmp(cmd, "rpeek") == 0)		//
+		Cmd_RightPeek_f(ent);					//
+	else if (Q_stricmp(cmd, "chasecam") == 0)	//
+		Cmd_Chasecam_Toggle(ent);				//
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }
