@@ -313,6 +313,9 @@ void HelpComputer (edict_t *ent)
 	else
 		sk = "hard+";
 
+	char help1[512] = "Your goal is to catch all\nthe monsters before they\nnotice you and run away.";	// hira: help menu editing
+	char help2[512] = "The slower you move, the\nquieter you are.\nDon't be too loud!!";
+	
 	// send the layout
 	Com_sprintf (string, sizeof(string),
 		"xv 32 yv 8 picn help "			// background
@@ -324,8 +327,10 @@ void HelpComputer (edict_t *ent)
 		"xv 50 yv 172 string2 \"%3i/%3i     %i/%i       %i/%i\" ", 
 		sk,
 		level.level_name,
-		game.helpmessage1,
-		game.helpmessage2,
+		//game.helpmessage1,
+		//game.helpmessage2,
+		help1,
+		help2,
 		level.killed_monsters, level.total_monsters, 
 		level.found_goals, level.total_goals,
 		level.found_secrets, level.total_secrets);

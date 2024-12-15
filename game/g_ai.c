@@ -302,6 +302,8 @@ qboolean visible (edict_t *self, edict_t *other)
 	return false;
 
 	// hira: if player is invisible, return false
+	if (other->client && other->client->invisible_framenum > level.framenum)
+		return false;
 }
 
 
@@ -351,9 +353,9 @@ void FoundTarget (edict_t *self)
 {
 	// hira: if enemy is disguized or invisible, dont get mad
 	if (self->enemy->client && self->enemy->client->disguise_framenum > level.framenum)
-		return false;
+		return;
 	if (self->enemy->client && self->enemy->client->invisible_framenum > level.framenum)
-		return false;
+		return;
 	
 	// let other monsters see this monster for a while
 	if (self->enemy->client)
@@ -471,6 +473,9 @@ qboolean FindTarget (edict_t *self)
 	// hira: if player has lightstep, dont hear anything
 	if (client->client && client->client->lightstep_framenum > level.framenum)
 		heardit = false;
+	// hira: if player is crouched, dont hear anything
+	//if (client->client->ps.pmove.pm_flags & PMF_DUCKED)
+	//	heardit = false;
 
 	// if the entity went away, forget it
 	if (!client->inuse)
