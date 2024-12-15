@@ -902,6 +902,23 @@ void Cmd_PlayerList_f(edict_t *ent)
 	gi.cprintf(ent, PRINT_HIGH, "%s", text);
 }
 
+/*
+==================
+Cmd_Dash_f
+
+Client dashes forwards -hira
+==================
+*/
+void Cmd_Dash_f(edict_t* ent)
+{
+	if (ent->client->dash_framenum > level.framenum)
+		ent->client->dash_framenum += 2;
+	else
+		ent->client->dash_framenum = level.framenum + 2;
+
+	gi.sound(ent, CHAN_ITEM, gi.soundindex("items/protect.wav"), 1, ATTN_NORM, 0);
+}
+
 
 /*
 =================
@@ -990,6 +1007,8 @@ void ClientCommand (edict_t *ent)
 		Cmd_Wave_f (ent);
 	else if (Q_stricmp(cmd, "playerlist") == 0)
 		Cmd_PlayerList_f(ent);
+	else if (Q_stricmp(cmd, "dash") == 0)	//hira
+		Cmd_Dash_f(ent);					//
 	else	// anything that doesn't match a command will be a chat
 		Cmd_Say_f (ent, false, true);
 }

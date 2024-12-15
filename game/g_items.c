@@ -426,9 +426,9 @@ void	Use_Invisibility(edict_t* ent, gitem_t* item)
 	ValidateSelectedItem(ent);
 
 	if (ent->client->invisible_framenum > level.framenum)
-		ent->client->invisible_framenum += 300;
+		ent->client->invisible_framenum += 200;
 	else
-		ent->client->invisible_framenum = level.framenum + 300;
+		ent->client->invisible_framenum = level.framenum + 200;
 
 	gi.sound(ent, CHAN_ITEM, gi.soundindex("items/protect.wav"), 1, ATTN_NORM, 0);
 }
@@ -455,6 +455,19 @@ void	Use_LightStep(edict_t* ent, gitem_t* item)
 		ent->client->lightstep_framenum += 300;
 	else
 		ent->client->lightstep_framenum = level.framenum + 300;
+
+	gi.sound(ent, CHAN_ITEM, gi.soundindex("items/protect.wav"), 1, ATTN_NORM, 0);
+}
+
+void	Use_Speed(edict_t* ent, gitem_t* item)
+{
+	ent->client->pers.inventory[ITEM_INDEX(item)]--;
+	ValidateSelectedItem(ent);
+
+	if (ent->client->speed_framenum > level.framenum)
+		ent->client->speed_framenum += 100;
+	else
+		ent->client->speed_framenum = level.framenum + 100;
 
 	gi.sound(ent, CHAN_ITEM, gi.soundindex("items/protect.wav"), 1, ATTN_NORM, 0);
 }
@@ -1795,7 +1808,7 @@ always owned, never in the world
 				0,
 				/* precache */ ""
 	},
-/*hira: QUAKED item_invisibility (.3 .3 1) (-16 -16 -16) (16 16 16)
+/*hira: QUAKED item_disguise (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{
 		"item_disguise",
@@ -1818,7 +1831,7 @@ always owned, never in the world
 				/* precache */ ""
 	},
 
-/*hira: QUAKED item_invisibility (.3 .3 1) (-16 -16 -16) (16 16 16)
+/*hira: QUAKED item_lightstep (.3 .3 1) (-16 -16 -16) (16 16 16)
 */
 	{
 		"item_lightstep",
@@ -1831,6 +1844,29 @@ always owned, never in the world
 		NULL,
 		/* icon */		"p_rebreather",
 		/* pickup */	"LightStep",
+		/* width */		2,
+				60,
+				NULL,
+				IT_POWERUP,
+				0,
+				NULL,
+				0,
+				/* precache */ ""
+	},
+
+	/*hira: QUAKED item_speed (.3 .3 1) (-16 -16 -16) (16 16 16)
+	*/
+	{
+		"item_speed",
+		Pickup_Powerup,
+		Use_Speed,
+		Drop_General,
+		NULL,
+		"items/pkup.wav",
+		"models/items/invulner/tris.md2", EF_ROTATE,
+		NULL,
+		/* icon */		"p_invulnerability",
+		/* pickup */	"Speed",
 		/* width */		2,
 				60,
 				NULL,

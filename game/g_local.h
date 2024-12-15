@@ -947,8 +947,10 @@ struct gclient_s
 	float		breather_framenum;
 	float		enviro_framenum;
 	float		invisible_framenum;	//hira
-	float		disguise_framenum;	//hira
-	float		lightstep_framenum; //hira
+	float		disguise_framenum;	//
+	float		lightstep_framenum; //
+	float		speed_framenum;		//
+	float		dash_framenum;		//
 
 	qboolean	grenade_blew_up;
 	float		grenade_time;
@@ -1115,6 +1117,8 @@ struct edict_s
 	// common data blocks
 	moveinfo_t		moveinfo;
 	monsterinfo_t	monsterinfo;
+
+	int ClassSpeed; // hira: for player speed
 };
 
 /*
