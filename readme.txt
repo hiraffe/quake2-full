@@ -1,29 +1,20 @@
+================================= Quake 4 Mod =======================================
 
-This is the complete source code for Quake 2, version 3.19, buildable with
-visual C++ 6.0.  The linux version should be buildable, but we haven't
-tested it for the release.
+You are a hunter. Your goal is to sneak up on enemies and kill them, either sneak up on them and get attack before they notice you or chase after them.
 
-The code is all licensed under the terms of the GPL (gnu public license).  
-You should read the entire license, but the gist of it is that you can do 
-anything you want with the code, including sell your new version.  The catch 
-is that if you distribute new binary versions, you are required to make the 
-entire source code available for free to everyone.
+Stealth Mechanics:
+When you walk around normally, your footsteps are loud and will alert enemies when you get too close.
+Press C to crouch. It will lower your speed and you will also move more quietly.
+Press D to dash. It will make you move quickly forward, but makes a loud sound.
+Press Q or E to peek around a corner, so that you can spy on enemies from behind a wall or crate. Q lets you peek to the left and E to the right.
 
-The primary intent of this release is for entertainment and educational 
-purposes, but the GPL does allow commercial exploitation if you obey the 
-full license.  If you want to do something commercial and you just can't bear 
-to have your source changes released, we could still negotiate a separate 
-license agreement (for $$$), but I would encourage you to just live with the 
-GPL.
+Weapons:
+You can use the rail gun to set a trap and when an enemy steps on it, they can't move anymore, but they can still shoot at you.
+You can use the grenade launcher to set a more powerful trap that immediately kills an enemy once it is trapped.
 
-All of the Q2 data files remain copyrighted and licensed under the 
-original terms, so you cannot redistribute data from the original game, but if 
-you do a true total conversion, you can create a standalone game based on 
-this code.
-
-Thanks to Robert Duffy for doing the grunt work of building this release.
-
-John Carmack
-Id Software
-
-
+Powerups:
+Invisibility: enemies cant see you and don't notice when you shoot
+Disguise: enemies ignore you, but are alerted if you start shooting at them
+LightStep: Your normal footsteps dont make a sound
+Silencer: Your weapons dont make a sound
+Speed: Your walking speed is faster
