@@ -630,7 +630,7 @@ static void Trap_Capture(edict_t* ent)
 			mod = MOD_GRENADE;
 		//T_Damage(ent->enemy, ent, ent->owner, dir, ent->s.origin, vec3_origin, (int)points, (int)points, DAMAGE_RADIUS, mod);
 		//hira: freeze enemy 
-		T_Freeze(ent->enemy, ent, ent->owner, dir, ent->s.origin, vec3_origin, (int)points, (int)points, DAMAGE_RADIUS, mod);
+		T_Freeze(ent->enemy, ent, ent->owner, ent->s.origin, vec3_origin, DAMAGE_RADIUS, mod);
 	}
 
 	if (ent->spawnflags & 2)
@@ -640,6 +640,7 @@ static void Trap_Capture(edict_t* ent)
 	else
 		mod = MOD_G_SPLASH;
 	//T_RadiusDamage(ent, ent->owner, ent->dmg, ent->enemy, ent->dmg_radius, mod);
+	T_Freeze(ent->enemy, ent, ent->owner, ent->s.origin, vec3_origin, DAMAGE_RADIUS, mod);
 
 	VectorMA(ent->s.origin, -0.02, ent->velocity, origin);
 	gi.WriteByte(svc_temp_entity);
