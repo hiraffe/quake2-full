@@ -345,7 +345,7 @@ void HelpComputer (edict_t *ent)
 ==================
 Cmd_Help_f
 
-Display the current help message		hira: edit this part for common deliverable
+Display the current help message
 ==================
 */
 void Cmd_Help_f (edict_t *ent)
@@ -384,7 +384,7 @@ void G_SetStats (edict_t *ent)
 	gitem_t		*item;
 	int			index, cells;
 	int			power_armor_type;
-
+	
 	//
 	// health
 	//

@@ -629,7 +629,7 @@ static void Trap_Capture(edict_t* ent)
 		else
 			mod = MOD_GRENADE;
 		//T_Damage(ent->enemy, ent, ent->owner, dir, ent->s.origin, vec3_origin, (int)points, (int)points, DAMAGE_RADIUS, mod);
-		//freeze enemy 
+		//hira: freeze enemy 
 		T_Freeze(ent->enemy, ent, ent->owner, dir, ent->s.origin, vec3_origin, (int)points, (int)points, DAMAGE_RADIUS, mod);
 	}
 
@@ -643,6 +643,7 @@ static void Trap_Capture(edict_t* ent)
 
 	VectorMA(ent->s.origin, -0.02, ent->velocity, origin);
 	gi.WriteByte(svc_temp_entity);
+	
 	if (ent->waterlevel)
 	{
 		if (ent->groundentity)
